@@ -4,31 +4,6 @@
 
 CyberSentinel AI is an educational Streamlit application for reviewing suspicious URLs, network captures, logs, files, and email. It includes interpretable rules, a demonstration URL classifier, scan history, and analyst workflow features. Findings are triage aids, not proof of compromise or safety.
 
-<h2>Authors</h2>
-<ul>
-  <li>
-    Taniya Thakur —
-    <a href="https://github.com/taniyathakur17">@taniyathakur17</a>
-  </li>
-  <li>
-    Yuvraj Sharda —
-    <a href="https://github.com/yuvrajsharda11">@yuvrajsharda11</a>
-  </li>
-  <li>
-    Zuhaib Hassan —
-    <a href="https://github.com/Zuhaibhassan13">@Zuhaibhassan13</a>
-  </li>
-</ul>
-
-<h2>License</h2>
-<p>
-  This project is licensed under the
-  <a href="LICENSE">MIT License</a>.
-  Third-party materials, including the PhiUSIIL dataset, are governed by
-  their own license terms. See
-  <a href="ml/data/README.md">the dataset attribution and license details</a>.
-</p>
-
 ## Features
 
 - Hybrid URL phishing analysis with a Random Forest model, heuristic indicators, evidence strength separate from severity, and model evaluation metadata.
@@ -114,3 +89,13 @@ The Copilot uses a small local reference guide for general cybersecurity questio
 - Use HTTPS, strong unique credentials, secret management, and access controls for any hosted demonstration.
 - Streamlit upload size is capped at 25 MB, and PCAP parsing is capped at 25 MB and 25,000 packets. Large PCAPs return a truncation notice; do not treat partial capture analysis as complete.
 - The Docker Compose service runs read-only with a writable data volume and temporary directory, drops Linux capabilities, and disallows privilege escalation. Retain backups of `./data` outside the host.
+
+## Authors
+
+- Taniya Thakur — [@taniyathakur17](https://github.com/taniyathakur17)
+- Yuvraj Sharda — [@yuvrajsharda11](https://github.com/yuvrajsharda11)
+- Zuhaib Hassan — [@Zuhaibhassan13](https://github.com/Zuhaibhassan13)
+
+## License
+
+This project is licensed under the [MIT License](LICENSE). Third-party materials, including the PhiUSIIL dataset, are governed by their own license terms. See [ml/data/README.md](ml/data/README.md) for dataset attribution and license details.
