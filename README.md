@@ -1,7 +1,31 @@
 # CyberSentinel AI: A Cloud-Based Unified Cyber Threat Detection and Risk Analysis Platform
-[🚀 Open the live app](https://cybersentinel-ai-i04z.onrender.com)
 
 CyberSentinel AI is an educational Streamlit application for reviewing suspicious URLs, network captures, logs, files, and email. It includes interpretable rules, a demonstration URL classifier, scan history, and analyst workflow features. Findings are triage aids, not proof of compromise or safety.
+
+<h2>Authors</h2>
+<ul>
+  <li>
+    Taniya Thakur —
+    <a href="https://github.com/taniyathakur17">@taniyathakur17</a>
+  </li>
+  <li>
+    Yuvraj Sharda —
+    <a href="https://github.com/yuvrajsharda11">@yuvrajsharda11</a>
+  </li>
+  <li>
+    Zuhaib Hassan —
+    <a href="https://github.com/Zuhaibhassan13">@Zuhaibhassan13</a>
+  </li>
+</ul>
+
+<h2>License</h2>
+<p>
+  This project is licensed under the
+  <a href="LICENSE">MIT License</a>.
+  Third-party materials, including the PhiUSIIL dataset, are governed by
+  their own license terms. See
+  <a href="ml/data/README.md">the dataset attribution and license details</a>.
+</p>
 
 ## Features
 
@@ -34,20 +58,30 @@ python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 python ml/evaluate_url_model.py
+export CYBERSENTINEL_ENV=production
+export CYBERSENTINEL_ADMIN_USERNAME=admin
+printf 'Admin password: '; read -s CYBERSENTINEL_ADMIN_PASSWORD; printf '\n'
+export CYBERSENTINEL_ADMIN_PASSWORD
 streamlit run app.py
 ```
 
-The bundled model was trained from PhiUSIIL. `python ml/evaluate_url_model.py` reproduces held-out metrics; `python ml/train_url_model.py` retrains on the bundled labeled dataset and takes a few minutes on a typical laptop. Use `python ml/train_url_model.py --synthetic` only to reproduce the clearly identified teaching baseline. Image OCR requires the Tesseract engine: install it with `brew install tesseract` on macOS or your system package manager on Linux. Docker installs it automatically. If Tesseract is missing, QR decoding and URL extraction from decoded QR codes still work, while OCR displays a notice. Development defaults to `admin` / `admin123`; never expose that local demo account to a network. Production requires an administrator password of at least 14 characters, including upper- and lowercase letters and a number.
+The bundled model was trained from PhiUSIIL. `python ml/evaluate_url_model.py` reproduces held-out metrics; `python ml/train_url_model.py` retrains on the bundled labeled dataset and takes a few minutes on a typical laptop. Use `python ml/train_url_model.py --synthetic` only to reproduce the clearly identified teaching baseline. Image OCR requires the Tesseract engine: install it with `brew install tesseract` on macOS or your system package manager on Linux. Docker installs it automatically. If Tesseract is missing, QR decoding and URL extraction from decoded QR codes still work, while OCR displays a notice. A fresh development database seeds `admin` / `admin123`; never expose that demo account to a network. The history-preserving release invalidates that bundled demo password, so set `CYBERSENTINEL_ENV=production`, `CYBERSENTINEL_ADMIN_USERNAME=admin`, and a strong `CYBERSENTINEL_ADMIN_PASSWORD` before launching it directly. Production requires at least 14 characters, including upper- and lowercase letters and a number.
 
 ## Run with Docker Compose
 
-Copy `.env.example` to `.env` and replace the sample administrator password with a strong unique value. For local access, run:
+Copy `.env.example` to `.env` and set `CYBERSENTINEL_ADMIN_PASSWORD` to a strong unique value before starting; production startup will fail until it is set. For local access, run:
 
 ```bash
 docker compose up --build
 ```
 
-The database, generated reports, and cybercrime evidence files are stored under `./data`. Compose defaults to production mode, which disables demo credentials and requires a bootstrap username and strong password. If a local database contains the default `admin` / `admin123` credentials, production startup invalidates that known password unless `admin` is explicitly configured as the bootstrap account. The app binds to localhost on port 8501. Back up all of `./data` before upgrades; restore by stopping the app, restoring the database, reports, and evidence into `./data`, then starting it again. The included Compose file remains a single-instance educational deployment.
+The database, generated reports, and cybercrime evidence files are stored under `./data`. In the history-preserving release, the original database is kept under `seed/cybersecurity.db`; on first startup, the app copies it into the configured data directory if no database exists there. Compose defaults to production mode, which disables demo credentials and public account registration, and requires a bootstrap username and strong password. An existing configured bootstrap account is rotated to the password supplied in `.env` on production startup when they differ; keep that secret stable between restarts. Set `CYBERSENTINEL_REGISTRATION_ENABLED=1` only when you intend to allow open sign-up. The app binds to localhost on port 8501. Back up all of `./data` before upgrades; restore by stopping the app, restoring the database, reports, and evidence into `./data`, then starting it again. The included Compose file remains a single-instance educational deployment.
+
+The Docker image also honors a `PORT` environment variable for platforms that assign a service port dynamically; it defaults to 8501 for local use. Persistent storage must be mounted at `/app/data` on hosted platforms or database, report, and evidence files may be lost when an instance is replaced.
+
+### Render deployment
+
+The included `render.yaml` defines a Docker web service, a health check, production credentials supplied in the Render Dashboard, and a 1 GB persistent disk mounted at `/app/data` so the imported scan history, reports, and evidence remain available across restarts. On its first start, the app copies the retained database from `seed/cybersecurity.db` onto that disk. Render requires a paid service plan for persistent disks. Review the plan and disk in Render before creating the service; the Blueprint does not contain an administrator password.
 
 ### Optional HTTPS website on a VPS
 
