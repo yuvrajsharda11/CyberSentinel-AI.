@@ -1,0 +1,91 @@
+{
+  "dataset": "PhiUSIIL Phishing URL (Website) Dataset",
+  "dataset_url": "https://archive.ics.uci.edu/dataset/967/phiusiil+phishing+url+dataset",
+  "license": "CC BY 4.0; attribution required",
+  "dataset_samples": 235795,
+  "label_mapping": {
+    "0": "legitimate",
+    "1": "phishing"
+  },
+  "split": "80/20 GroupShuffleSplit by registrable domain; seed 42",
+  "seed": 42,
+  "group_counts": {
+    "train_domains": 134504,
+    "test_domains": 33626
+  },
+  "metrics": {
+    "accuracy": 0.9933,
+    "precision_phishing": 0.9994,
+    "recall_phishing": 0.9872,
+    "f1_phishing": 0.9933,
+    "false_positive_rate": 0.0006,
+    "false_negative_rate": 0.0128,
+    "specificity": 0.9994,
+    "roc_auc": 0.9984,
+    "confusion_matrix": {
+      "labels": [
+        "legitimate",
+        "phishing"
+      ],
+      "true_negative": 27056,
+      "false_positive": 17,
+      "false_negative": 346,
+      "true_positive": 26762
+    },
+    "test_samples": 54181
+  },
+  "feature_order": [
+    "url_length",
+    "host_length",
+    "path_length",
+    "query_length",
+    "num_dots_host",
+    "num_hyphens_host",
+    "num_digits_host",
+    "digit_ratio_host",
+    "num_subdomains",
+    "has_at",
+    "has_ip",
+    "is_shortener",
+    "suspicious_tld",
+    "num_keywords",
+    "is_https",
+    "has_encoded_chars",
+    "has_double_slash_path",
+    "host_entropy",
+    "num_special_chars",
+    "path_depth"
+  ],
+  "feature_importances": {
+    "url_length": 0.04868,
+    "host_length": 0.01023,
+    "path_length": 0.18451,
+    "query_length": 0.00016,
+    "num_dots_host": 0.01336,
+    "num_hyphens_host": 0.00833,
+    "num_digits_host": 0.03125,
+    "digit_ratio_host": 0.04026,
+    "num_subdomains": 0.0175,
+    "has_at": 0.0,
+    "has_ip": 1e-05,
+    "is_shortener": 9e-05,
+    "suspicious_tld": 0.01667,
+    "num_keywords": 0.00287,
+    "is_https": 0.43402,
+    "has_encoded_chars": 0.0,
+    "has_double_slash_path": 1e-05,
+    "host_entropy": 0.01258,
+    "num_special_chars": 0.00196,
+    "path_depth": 0.17749
+  },
+  "synthetic_demo_metrics": {
+    "accuracy": 1.0,
+    "roc_auc": 1.0,
+    "dataset": "synthetic dataset (see train_url_model.py docstring)"
+  },
+  "limitations": [
+    "Domain-grouped evaluation reduces same-domain leakage but does not replace a time-based external validation set.",
+    "PhiUSIIL labels and collection process have the limitations documented by UCI.",
+    "This model uses URL-string features only; dataset webpage features are not used."
+  ]
+}

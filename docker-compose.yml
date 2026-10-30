@@ -1,0 +1,49 @@
+services:
+  cybersentinel:
+    build: .
+    ports:
+      - "127.0.0.1:8501:8501"
+    environment:
+      CYBERSENTINEL_ENV: ${CYBERSENTINEL_ENV:-production}
+      TMPDIR: /tmp
+      XDG_CACHE_HOME: /tmp/.cache
+      CYBERSENTINEL_DB: /app/data/cybersecurity.db
+      CYBERSENTINEL_REPORT_DIR: /app/data/reports
+      CYBERSENTINEL_EVIDENCE_DIR: /app/data/evidence
+      CYBERSENTINEL_DEMO_ADMIN: ${CYBERSENTINEL_DEMO_ADMIN:-0}
+      CYBERSENTINEL_ADMIN_USERNAME: ${CYBERSENTINEL_ADMIN_USERNAME:-}
+      CYBERSENTINEL_ADMIN_PASSWORD: ${CYBERSENTINEL_ADMIN_PASSWORD:-}
+      VIRUSTOTAL_API_KEY: ${VIRUSTOTAL_API_KEY:-}
+    volumes:
+      - ./data:/app/data
+    init: true
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+
+  # Optional public HTTPS entry point for a VPS with a DNS name pointing here.
+  # Start with: docker compose --profile public up --build -d
+  caddy:
+    image: caddy:2-alpine
+    profiles: ["public"]
+    restart: unless-stopped
+    environment:
+      CYBERSENTINEL_DOMAIN: ${CYBERSENTINEL_DOMAIN:-}
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - cybersentinel
+
+volumes:
+  caddy_data:
+  caddy_config:

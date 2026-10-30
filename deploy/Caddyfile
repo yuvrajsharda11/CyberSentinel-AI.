@@ -1,0 +1,4 @@
+{$CYBERSENTINEL_DOMAIN} {
+	encode zstd gzip
+	reverse_proxy cybersentinel:8501
+}

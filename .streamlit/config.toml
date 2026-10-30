@@ -1,0 +1,26 @@
+[server]
+headless = true
+port = 8501
+enableCORS = false
+maxUploadSize = 25
+
+[client]
+toolbarMode = "minimal"
+
+[browser]
+gatherUsageStats = false
+
+# Both themes are defined; Streamlit follows the visitor's system setting and
+# they can switch from the app's Settings menu. Custom components in ui.py
+# derive their colours from whichever theme is active.
+[theme.dark]
+primaryColor = "#4b8bf5"
+backgroundColor = "#0b121c"
+secondaryBackgroundColor = "#111b29"
+textColor = "#e6edf4"
+
+[theme.light]
+primaryColor = "#1f5fd1"
+backgroundColor = "#f7f9fc"
+secondaryBackgroundColor = "#eaeff6"
+textColor = "#142033"
