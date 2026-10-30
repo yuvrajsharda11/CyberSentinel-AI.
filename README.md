@@ -1,4 +1,5 @@
 # CyberSentinel AI: A Cloud-Based Unified Cyber Threat Detection and Risk Analysis Platform
+[🚀 Open the live app](https://cybersentinel-ai-i04z.onrender.com)
 
 CyberSentinel AI is an educational Streamlit application for reviewing suspicious URLs, network captures, logs, files, and email. It includes interpretable rules, a demonstration URL classifier, scan history, and analyst workflow features. Findings are triage aids, not proof of compromise or safety.
 
